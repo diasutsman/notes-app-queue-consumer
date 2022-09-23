@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-dev": "nodemon ./src/consumer",
+    "lint": "eslint ./src",
+    "fix-lint": "eslint --fix ./src",
+    "init-lint": "npx eslint --init"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +17,11 @@
     "dotenv": "^16.0.2",
     "nodemailer": "^6.7.8",
     "pg": "^8.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.20"
   }
 }

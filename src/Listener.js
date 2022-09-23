@@ -1,22 +1,24 @@
 class Listener {
-    constructor(notesService, mailSender) {
-        this.notesService = notesService;
-        this.mailSender = mailSender;
+  constructor(notesService, mailSender) {
+    this.notesService = notesService;
+    this.mailSender = mailSender;
 
-        this.listen = this.listen.bind(this)
+    this.listen = this.listen.bind(this);
+  }
+
+  async listen(message) {
+    try {
+      const { userId, targetEmail } = JSON.parse(message.content.toString());
+
+      const notes = await this.notesService.getNotes(userId);
+      const result = await this.mailSender.sendEmail(targetEmail, JSON.stringify(notes));
+      // eslint-disable-next-line no-console
+      console.log(result);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
-
-    async listen(message) {
-        try {
-            const { userId, targetEmail } = JSON.parse(message.content.toString())
-
-            const notes = await this.notesService.getNotes(userId)
-            const result = await this.mailSender.sendEmail(targetEmail, JSON.stringify(notes))
-            console.log(result)
-        } catch (error) {
-            console.error(error)
-        }
-    }
+  }
 }
 
-module.exports = Listener
+module.exports = Listener;

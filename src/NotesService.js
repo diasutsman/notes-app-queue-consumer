@@ -1,22 +1,22 @@
-const { Pool } = require("pg");
+const { Pool } = require('pg');
 
 class NotesService {
-    constructor() {
-        this.pool = new Pool()
-    }
+  constructor() {
+    this.pool = new Pool();
+  }
 
-    async getNotes(userId) {
-        const query = {
-            text: `SELECT notes.* FROM notes
+  async getNotes(userId) {
+    const query = {
+      text: `SELECT notes.* FROM notes
             LEFT JOIN collaborations ON collaborations.note_id = notes.id
             WHERE notes.owner = $1 OR collaborations.user_id = $1
             GROUP BY notes.id`,
-            values: [userId],
-        }
+      values: [userId],
+    };
 
-        const { rows } = await this.pool.query(query);
-        return rows
-    }
+    const { rows } = await this.pool.query(query);
+    return rows;
+  }
 }
 
 module.exports = NotesService;
